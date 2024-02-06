@@ -142,9 +142,12 @@ public class Player : MonoBehaviour
 
         if (canDropBombs && Input.GetKeyDown(KeyCode.Space))
         { //Drop bomb
+            StartCoroutine(waitToThrow());
             DropBomb();
 
         }
+        
+        
     }
 
     /// <summary>
@@ -183,6 +186,7 @@ public class Player : MonoBehaviour
         if (canDropBombs && (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)))
         { //Drop Bomb. For Player 2's bombs, allow both the numeric enter as the return key or players 
             //without a numpad will be unable to drop bombs
+            StartCoroutine(waitToThrow());
             DropBomb();
         }
     }
@@ -210,6 +214,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator waitToThrow()
+    {
+        
+        yield return new WaitForSeconds(throwCooldown);
+        Debug.Log("I waited");
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Explosion"))
